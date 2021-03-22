@@ -3,7 +3,8 @@
     <div class="col-md-6">
       <h4>Lista de empleados</h4>
       <ul class="list-group">
-        <li class="list-group-item"
+        <li
+          class="list-group-item"
           :class="{ active: index == currentIndex }"
           v-for="(employee, index) in employees"
           :key="index"
@@ -17,20 +18,23 @@
       <div v-if="currentEmployee">
         <h4>Empleado</h4>
         <div>
-          <label><strong>Nombre:</strong></label> {{ currentEmployee.firstname }}
+          <label><strong>Nombre:</strong></label>
+          {{ currentEmployee.firstname }}
         </div>
         <div>
-          <label><strong>Apellido:</strong></label> {{ currentEmployee.lastname }}
+          <label><strong>Apellido:</strong></label>
+          {{ currentEmployee.lastname }}
         </div>
         <div>
           <label><strong>Salario:</strong></label> {{ currentEmployee.salary }}
         </div>
-
-        <a class="badge badge-warning"
-          :href="'/employees/' + currentEmployee._id"
+        <router-link
+          :to="{
+            name: 'employee-details',
+            params: { id: currentEmployee._id },
+          }"
+          ><a class="badge badge-warning"> Editar </a></router-link
         >
-          Editar
-        </a>
       </div>
       <div v-else>
         <br />
@@ -50,17 +54,17 @@ export default {
       employees: [],
       currentEmployee: null,
       currentIndex: -1,
-      title: ""
+      title: "",
     };
   },
   methods: {
     retrieveTutorials() {
       TutorialDataService.getAll()
-        .then(response => {
+        .then((response) => {
           this.employees = response.data.res;
           console.log(response.data.res);
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
         });
     },
@@ -78,7 +82,7 @@ export default {
   },
   mounted() {
     this.retrieveTutorials();
-  }
+  },
 };
 </script>
 
